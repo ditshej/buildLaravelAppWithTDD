@@ -14,11 +14,11 @@ class ProjectFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
+            'title' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
         ];
     }
 }

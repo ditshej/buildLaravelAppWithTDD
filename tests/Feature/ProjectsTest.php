@@ -29,6 +29,17 @@ class ProjectsTest extends TestCase
     }
 
     /** @test * */
+    public function a_user_can_view_a_project(): void
+    {
+        $this->withoutExceptionHandling();
+        $project = Project::factory()->create();
+
+        $this->get($project->path())
+            ->assertSee($project->title)
+            ->assertSee($project->description);
+    }
+
+    /** @test * */
     public function a_project_requires_a_title(): void
     {
         $attributes = Project::factory()->raw(['title' => '']);
@@ -39,6 +50,6 @@ class ProjectsTest extends TestCase
     public function a_project_requires_a_description(): void
     {
         $attributes = Project::factory()->raw(['description' => '']);
-        $this->post('/projects', [])->assertSessionHasErrors('description');
+        $this->post('/projects', $attributes)->assertSessionHasErrors('description');
     }
 }
