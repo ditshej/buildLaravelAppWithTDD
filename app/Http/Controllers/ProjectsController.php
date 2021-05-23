@@ -25,6 +25,11 @@ class ProjectsController extends Controller
         return view('projects.show', compact('project'));
     }
 
+    public function create(): Factory|View|Application
+    {
+        return view('projects.create');
+    }
+
     public function store(): Redirector|Application|RedirectResponse
     {
         $attributes = request()->validate([
