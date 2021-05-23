@@ -13,12 +13,15 @@ class ProjectsController extends Controller
 {
     public function index(): Factory|View|Application
     {
-        $projects = Project::all();
+        $projects = auth()->user()->projects;
         return view('projects.index', compact('projects'));
     }
 
     public function show(Project $project): Factory|View|Application
     {
+        if (auth()->user()->isNot($project->owner)) {
+            abort(403);
+        }
         return view('projects.show', compact('project'));
     }
 
