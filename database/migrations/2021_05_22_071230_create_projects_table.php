@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('owner_id');
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
 
             $table->foreign('owner_id')

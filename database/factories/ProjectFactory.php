@@ -20,7 +20,7 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(),
+            'title' => $this->faker->words(3,true),
             'description' => $this->faker->paragraph(),
             'owner_id' => fn() => User::factory()->create()->id
         ];
