@@ -23,6 +23,18 @@ class ProjectTest extends TestCase
     public function it_belongs_to_an_owner() : void
     {
         $project = Project::factory()->create();
-        $this->assertInstanceOf(User::class, $project->owner);
+
+        self::assertInstanceOf(User::class, $project->owner);
+    }
+
+    /** @test */
+    public function it_can_add_a_task() : void
+    {
+        $project = Project::factory()->create();
+
+        $task = $project->addTask('Test task');
+
+        self::assertCount(1, $project->tasks);
+        self::assertTrue($project->tasks->contains($task));
     }
 }
