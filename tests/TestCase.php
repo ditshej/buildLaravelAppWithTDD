@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Spatie\LaravelRay\RayServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -12,5 +13,12 @@ abstract class TestCase extends BaseTestCase
     protected function signIn($user = null): TestCase
     {
         return $this->actingAs($user ?: User::factory()->create());
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            RayServiceProvider::class,
+        ];
     }
 }
