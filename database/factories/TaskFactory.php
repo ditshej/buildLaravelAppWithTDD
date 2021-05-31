@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
@@ -15,11 +16,11 @@ class TaskFactory extends Factory
      *
      * @return array
      */
-    #[ArrayShape(['body' => "string"])]
     public function definition(): array
     {
         return [
-            'body' => $this->faker->sentence()
+            'body' => $this->faker->sentence,
+            'project_id' => Project::factory()
         ];
     }
 }
