@@ -6,19 +6,19 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 
-class ProjectFactory
+class ProjectTestFactory
 {
     protected int $taskCount = 0;
     protected User $user;
 
-    public function withTasks(int $count)
+    public function withTasks(int $count): static
     {
         $this->taskCount = $count;
 
         return $this;
     }
 
-    public function ownedBy(User $user)
+    public function ownedBy(User $user): static
     {
         $this->user = $user;
 
@@ -27,7 +27,7 @@ class ProjectFactory
 
     public function create()
     {
-        \Facades\Tests\Setup\ProjectFactory::clearResolvedInstance('ProjectFactory');
+        \Facades\Tests\Setup\ProjectTestFactory::clearResolvedInstance('ProjectTestFactory');
 
         $project = Project::factory()->create([
             'owner_id' => $this->user ?? User::factory()

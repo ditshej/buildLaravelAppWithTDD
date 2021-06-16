@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Project;
 use App\Models\Task;
-use Facades\Tests\Setup\ProjectFactory;
+use Facades\Tests\Setup\ProjectTestFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -38,7 +38,7 @@ class ProjectTasksTest extends TestCase
     {
         $this->signIn();
 
-        $project = ProjectFactory::withTasks(1)->create();
+        $project = ProjectTestFactory::withTasks(1)->create();
 
         $this->patch($project->tasks->first()->path(), ['body' => 'changed'])
             ->assertStatus(403);
@@ -49,7 +49,7 @@ class ProjectTasksTest extends TestCase
     /** @test */
     public function a_project_can_have_tasks(): void
     {
-        $project = ProjectFactory::create();
+        $project = ProjectTestFactory::create();
 
         $this->actingAs($project->owner)
             ->post($project->path() . '/tasks', ['body' => 'Test task']);
@@ -61,8 +61,7 @@ class ProjectTasksTest extends TestCase
     /** @test */
     public function a_task_can_be_updated(): void
     {
-        $project = ProjectFactory::withTasks(1)
-            ->create();
+        $project = ProjectTestFactory::withTasks(1)->create();
 
         $this->actingAs($project->owner)
             ->patch($project->tasks->first()->path(), [
@@ -79,7 +78,7 @@ class ProjectTasksTest extends TestCase
     /** @test */
     public function a_task_requires_a_body(): void
     {
-        $project = ProjectFactory::create();
+        $project = ProjectTestFactory::create();
 
         $attributes = Task::factory()->raw(['body' => '']);
 

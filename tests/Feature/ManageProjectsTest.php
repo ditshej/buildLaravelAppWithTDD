@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Project;
-use Facades\Tests\Setup\ProjectFactory;
+use Facades\Tests\Setup\ProjectTestFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -51,7 +51,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_update_a_project(): void
     {
-        $project = ProjectFactory::create();
+        $project = ProjectTestFactory::create();
 
         $this->actingAs($project->owner)
             ->patch($project->path(), $attributes = [
@@ -70,7 +70,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_update_a_projects_general_note(): void
     {
-        $project = ProjectFactory::create();
+        $project = ProjectTestFactory::create();
 
         $this->actingAs($project->owner)
             ->patch($project->path(), $attributes = ['notes' => 'Changed']);
@@ -81,7 +81,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_view_their_project(): void
     {
-        $project = ProjectFactory::create();
+        $project = ProjectTestFactory::create();
 
         $this->actingAs($project->owner)
             ->get($project->path())
