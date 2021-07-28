@@ -14,6 +14,26 @@ class Task extends Model
 
     protected $touches = ['project'];
 
+    protected $casts = [
+        'completed' => 'boolean'
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(static function ($task) {
+            $task->project->recordActivity('created_task');
+        });
+    }
+
+    public function complete(): void
+    {
+        $this->update(['completed' => true]);
+
+        $this->project->recordActivity('completed_task');
+    }
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

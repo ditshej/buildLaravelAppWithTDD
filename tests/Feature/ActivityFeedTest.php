@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Project;
+use Facades\Tests\Setup\ProjectTestFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,7 +12,7 @@ class ActivityFeedTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function creating_a_project_generates_activity(): void
+    public function creating_a_project_records_activity(): void
     {
         $project = Project::factory()->create();
 
@@ -20,7 +21,7 @@ class ActivityFeedTest extends TestCase
     }
 
     /** @test */
-    public function updating_a_project_generates_activity(): void
+    public function updating_a_project_records_activity(): void
     {
         $project = Project::factory()->create();
 
@@ -28,6 +29,34 @@ class ActivityFeedTest extends TestCase
 
         self::assertCount(2, $project->activity);
         self::assertEquals('updated', $project->activity->last()->description);
+    }
+
+    /** @test */
+    public function creating_a_new_task_records_project_activity(): void
+    {
+        $project = Project::factory()->create();
+
+        $project->addTask('Some task');
+
+        self::assertCount(2, $project->activity);
+        self::assertEquals('created_task', $project->activity->last()->description);
+    }
+
+
+    /** @test */
+    public function completing_a_new_task_records_project_activity(): void
+    {
+        $project = ProjectTestFactory::withTasks(1)->create();
+
+
+        $this->actingAs($project->owner)
+            ->patch($project->tasks[0]->path(), [
+                'body' => 'foobar',
+                'completed' => true,
+            ]);
+
+        self::assertCount(3, $project->activity);
+        self::assertEquals('completed_task', $project->activity->last()->description);
     }
 
 }
