@@ -34,6 +34,14 @@ class Task extends Model
         $this->project->recordActivity('completed_task');
     }
 
+    public function incomplete(): void
+    {
+        $this->update(['completed' => false]);
+
+        $this->project->recordActivity('incomplete_task');
+    }
+
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

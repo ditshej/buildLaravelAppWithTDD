@@ -44,7 +44,7 @@ class ActivityFeedTest extends TestCase
 
 
     /** @test */
-    public function completing_a_new_task_records_project_activity(): void
+    public function completing_a_task_records_project_activity(): void
     {
         $project = ProjectTestFactory::withTasks(1)->create();
 
@@ -58,5 +58,26 @@ class ActivityFeedTest extends TestCase
         self::assertCount(3, $project->activity);
         self::assertEquals('completed_task', $project->activity->last()->description);
     }
+
+    /** @test */
+    public function marking_a_task_as_incomplete_records_project_activity(): void
+    {
+        $project = ProjectTestFactory::withTasks(1)->create();
+
+        $this->actingAs($project->owner)
+            ->patch($project->tasks[0]->path(), [
+                'body' => 'foobar',
+                'completed' => true,
+            ]);
+
+        $this->patch($project->tasks[0]->path(), [
+                'body' => 'foobar',
+                'completed' => false,
+            ]);
+
+        self::assertCount(4, $project->activity);
+        self::assertEquals('incomplete_task', $project->activity->last()->description);
+    }
+
 
 }
