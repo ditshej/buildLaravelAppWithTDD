@@ -25,34 +25,4 @@ class ProjectObserver
     {
         $project->recordActivity('updated');
     }
-
-    /**
-     * Handle the project "deleted" event.
-     *
-     * @param Project $project
-     */
-    public function deleted(Project $project)
-    {
-        //
-    }
-
-    /**
-     * Handle the project "restored" event.
-     *
-     * @param Project $project
-     */
-    public function restored(Project $project)
-    {
-        //
-    }
-
-    /**
-     * Handle the project "force deleted" event.
-     *
-     * @param Project $project
-     */
-    public function forceDeleted(Project $project)
-    {
-        //
-    }
 }
